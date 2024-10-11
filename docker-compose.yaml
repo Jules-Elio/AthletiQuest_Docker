@@ -1,0 +1,22 @@
+services:
+  mysql:
+    image: mysql:lts
+    container_name: mysql_athletiquest
+    environment:
+      MYSQL_ROOT_PASSWORD: athletiquest
+      MYSQL_DATABASE: athletiquest
+      MYSQL_USER: athletiquest
+      MYSQL_PASSWORD: athletiquest
+    ports:
+      - '3306:3306'
+    volumes:
+      - ./db_data_mysql:/var/lib/mysql
+
+  mongodb:
+    image: mongo
+    container_name: mongodb_athletiquest
+    ports:
+      - '27017:27017'
+    volumes:
+      - ./db_data_mongodb:/data/db
+
