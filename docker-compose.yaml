@@ -4,7 +4,7 @@ networks:
 
 services:
   mysql_athletiquest:
-    image: mysql:8.4.3-oraclelinux9
+    image: mysql:8.4.5-oraclelinux9
     container_name: mysql_athletiquest
     environment:
       MYSQL_ROOT_PASSWORD: athletiquest
@@ -43,9 +43,10 @@ services:
       - '8080:8080'
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATA_MONGODB_HOST: mongodb_athletiquest
-      SPRING_DATA_MONGODB_PORT: 27017
-      SPRING_DATA_MONGODB_DATABASE: athletiquest
+      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_athletiquest:3306/athletiquest
+      SPRING_DATASOURCE_USERNAME: athletiquest
+      SPRING_DATASOURCE_PASSWORD: athletiquest
+      SPRING_DATA_MONGODB_URI: mongodb://athletiquest:athletiquest@mongobd_athletiquest:27017/athletiquest?authSource=admin
     networks:
       - database
 
