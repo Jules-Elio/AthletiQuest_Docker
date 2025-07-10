@@ -3,18 +3,17 @@ networks:
     external: false
 
 services:
-  mysql_athletiquest:
-    image: mysql:9.3.0
-    container_name: mysql_athletiquest
+  postgres_athletiquest:
+    image: postgis/postgis:17-3.5-alpine
+    container_name: postgresql_athletiquest
     environment:
-      MYSQL_ROOT_PASSWORD: athletiquest
-      MYSQL_DATABASE: athletiquest
-      MYSQL_USER: athletiquest
-      MYSQL_PASSWORD: athletiquest
+      POSTGRES_USER: athletiquest
+      POSTGRES_PASSWORD: athletiquest
+      POSTGRES_DB: athletiquest
     ports:
-      - '3306:3306'
+      - '5432:5432'
     volumes:
-      - ./db_data_mysql:/var/lib/mysql
+      - ./db_data_postgresql:/var/lib/postgresql/data
     networks:
       - database
 
@@ -37,14 +36,13 @@ services:
     pull_policy: always
     container_name: api_athletiquest
     depends_on:
-      - mysql_athletiquest
+      - postgres_athletiquest
       - mongodb_athletiquest
-    restart: on-failure
     ports:
       - '8080:8080'
     environment:
       SPRING_PROFILES_ACTIVE: docker
-      SPRING_DATASOURCE_URL: jdbc:mysql://mysql_athletiquest:3306/athletiquest
+      SPRING_DATASOURCE_URL: jdbc:postgresql://postgres_athletiquest:5432/athletiquest
       SPRING_DATASOURCE_USERNAME: athletiquest
       SPRING_DATASOURCE_PASSWORD: athletiquest
       SPRING_DATA_MONGODB_URI: mongodb://athletiquest:athletiquest@mongodb_athletiquest:27017/athletiquest?authSource=admin
